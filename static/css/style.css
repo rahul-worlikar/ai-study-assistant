@@ -1,0 +1,817 @@
+/* ========================================
+   CSS Variables & Reset
+   ======================================== */
+:root {
+    --primary-50: #eef2ff;
+    --primary-100: #e0e7ff;
+    --primary-200: #c7d2fe;
+    --primary-300: #a5b4fc;
+    --primary-400: #818cf8;
+    --primary-500: #6366f1;
+    --primary-600: #4f46e5;
+    --primary-700: #4338ca;
+    --primary-800: #3730a3;
+    --primary-900: #312e81;
+    
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: var(--gray-900);
+}
+
+/* ========================================
+   App Container
+   ======================================== */
+.app-container {
+    max-width: 1000px;
+    width: 100%;
+    min-height: 90vh;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+.app-header {
+    padding: 24px 32px;
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.logo-text h1 {
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+
+.logo-text p {
+    font-size: 14px;
+    color: var(--gray-500);
+    font-weight: 400;
+    -webkit-text-fill-color: var(--gray-500);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--gray-50);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+.status-badge i {
+    font-size: 8px;
+    color: var(--success);
+}
+
+/* ========================================
+   Main Content
+   ======================================== */
+.main-content {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+}
+
+/* ========================================
+   Controls Section
+   ======================================== */
+.controls-section {
+    margin-bottom: 28px;
+}
+
+.controls-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--gray-50);
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+}
+
+.personality-selector {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.personality-selector label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--gray-700);
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 40px 10px 16px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 200px;
+}
+
+.select-wrapper select:hover {
+    border-color: var(--primary-400);
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-400);
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.model-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-500);
+}
+
+.model-info i {
+    color: var(--primary-500);
+}
+
+/* ========================================
+   Question Section
+   ======================================== */
+.question-section {
+    margin-bottom: 28px;
+}
+
+.question-card {
+    background: white;
+    border-radius: 20px;
+    border: 2px solid var(--gray-200);
+    padding: 24px;
+    transition: border-color 0.3s;
+}
+
+.question-card:focus-within {
+    border-color: var(--primary-400);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.question-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.question-header i {
+    font-size: 20px;
+    color: var(--primary-500);
+}
+
+.question-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.question-input-wrapper {
+    position: relative;
+}
+
+.question-input-wrapper textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s;
+    min-height: 120px;
+    line-height: 1.6;
+    color: var(--gray-800);
+}
+
+.question-input-wrapper textarea:focus {
+    outline: none;
+    border-color: var(--primary-400);
+}
+
+.question-input-wrapper textarea::placeholder {
+    color: var(--gray-400);
+}
+
+.ask-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.ask-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.ask-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.ask-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ask-btn i {
+    font-size: 16px;
+}
+
+.question-hints {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--gray-400);
+}
+
+.question-hints span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.question-hints i {
+    font-size: 14px;
+}
+
+/* ========================================
+   Loading Section
+   ======================================== */
+.loading-section {
+    margin: 20px 0;
+}
+
+.loading-card {
+    background: white;
+    border-radius: 20px;
+    border: 2px solid var(--gray-200);
+    padding: 40px;
+    text-align: center;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.spinner-ring {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary-500);
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.spinner-ring:nth-child(2) {
+    animation-delay: 0.2s;
+    background: var(--primary-400);
+}
+
+.spinner-ring:nth-child(3) {
+    animation-delay: 0.4s;
+    background: var(--primary-300);
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.loading-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--gray-800);
+}
+
+.loading-card p {
+    color: var(--gray-500);
+    margin-bottom: 20px;
+}
+
+.loading-progress {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-400), var(--primary-600));
+    border-radius: 4px;
+    animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ========================================
+   Response Section
+   ======================================== */
+.response-section {
+    margin: 20px 0;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.response-card {
+    background: white;
+    border-radius: 20px;
+    border: 2px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.response-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.response-title i {
+    font-size: 20px;
+    color: var(--primary-500);
+}
+
+.response-title h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.response-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.personality-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-700);
+}
+
+.personality-badge i {
+    font-size: 14px;
+}
+
+.action-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray-600);
+}
+
+.action-btn:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+    transform: scale(1.05);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.explanation-content {
+    padding: 32px;
+    line-height: 1.8;
+    color: var(--gray-800);
+    min-height: 200px;
+}
+
+.explanation-content h1,
+.explanation-content h2,
+.explanation-content h3 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: var(--gray-900);
+}
+
+.explanation-content h1:first-child,
+.explanation-content h2:first-child,
+.explanation-content h3:first-child {
+    margin-top: 0;
+}
+
+.explanation-content ul,
+.explanation-content ol {
+    margin: 12px 0 12px 24px;
+}
+
+.explanation-content li {
+    margin-bottom: 6px;
+}
+
+.explanation-content p {
+    margin-bottom: 16px;
+}
+
+.explanation-content strong {
+    color: var(--primary-700);
+}
+
+.explanation-content code {
+    background: var(--gray-100);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.explanation-content blockquote {
+    border-left: 4px solid var(--primary-500);
+    padding-left: 20px;
+    margin: 16px 0;
+    color: var(--gray-600);
+    font-style: italic;
+}
+
+.response-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+}
+
+.metadata {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--gray-500);
+}
+
+.metadata span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.regenerate-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: auto;
+    height: auto;
+}
+
+.regenerate-btn:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+}
+
+.regenerate-btn i {
+    font-size: 14px;
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+.app-footer {
+    padding: 20px 32px;
+    background: white;
+    border-top: 1px solid var(--gray-200);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content p {
+    font-size: 14px;
+    color: var(--gray-500);
+}
+
+.footer-content p i {
+    margin: 0 4px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-links a {
+    color: var(--gray-400);
+    transition: color 0.2s;
+    font-size: 18px;
+}
+
+.footer-links a:hover {
+    color: var(--primary-500);
+}
+
+/* ========================================
+   Utilities
+   ======================================== */
+.hidden {
+    display: none !important;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+@media (max-width: 768px) {
+    .app-container {
+        border-radius: 20px;
+        min-height: 95vh;
+    }
+    
+    .app-header {
+        padding: 16px 20px;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+    
+    .logo-text h1 {
+        font-size: 20px;
+    }
+    
+    .logo-text p {
+        font-size: 12px;
+    }
+    
+    .controls-card {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .personality-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .select-wrapper select {
+        min-width: unset;
+        width: 100%;
+    }
+    
+    .question-input-wrapper textarea {
+        min-height: 100px;
+    }
+    
+    .ask-btn {
+        position: relative;
+        bottom: unset;
+        right: unset;
+        width: 100%;
+        justify-content: center;
+        margin-top: 12px;
+    }
+    
+    .question-hints {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .response-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
+    .response-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .response-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .metadata {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .regenerate-btn {
+        justify-content: center;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 12px 16px;
+    }
+    
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .logo-text h1 {
+        font-size: 18px;
+    }
+    
+    .header-status {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 16px;
+    }
+    
+    .explanation-content {
+        padding: 20px;
+    }
+}
