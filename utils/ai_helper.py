@@ -20,17 +20,39 @@ class AIStudyAssistant:
         # Initialize Groq client
         self.client = Groq(api_key=self.api_key)
         
-        # Updated to current supported models
-        # As of 2024, these are the recommended models:
-        self.available_models = {
-            "llama3-70b": "llama3-70b-8192",      # Most capable
-            "llama3-8b": "llama3-8b-8192",        # Fast and capable
-            "gemma2-9b": "gemma2-9b-it",          # Google's model
-            "mixtral": "mixtral-8x7b-32768",      # DEPRECATED - do not use
-        }
+        # Updated models after deprecation (August 2026)
+        self.models_to_try = [
+            "openai/gpt-oss-120b",      # Best quality
+            "openai/gpt-oss-20b",       # Fast responses
+            "qwen/qwen3.6-27b",         # Alternative
+        ]
         
-        # Use the best available model
-        self.default_model = "llama-3.3-70b-versatile"
+        # Find first working model
+        self.default_model = self._find_working_model()
+        
+        if not self.default_model:
+            print("⚠️  No working models found! Using default fallback.")
+            self.default_model = "openai/gpt-oss-120b"
+    
+    def _find_working_model(self):
+        """Find the first working model from the list"""
+        print("🔍 Finding working Groq model...")
+        
+        for model in self.models_to_try:
+            try:
+                # Quick test with minimal request
+                self.client.chat.completions.create(
+                    messages=[{"role": "user", "content": "test"}],
+                    model=model,
+                    max_tokens=5
+                )
+                print(f"✅ Using model: {model}")
+                return model
+            except Exception as e:
+                print(f"⚠️  Model {model} not available: {str(e)[:50]}...")
+                continue
+        
+        return None
     
     def get_explanation(self, question, personality="friendly_tutor"):
         """
@@ -47,15 +69,15 @@ class AIStudyAssistant:
             # Get the system prompt for the selected personality
             system_prompt = get_personality_prompt(personality)
             
-            # Create the chat completion with updated model
+            # Create the chat completion with improved parameters
             chat_completion = self.client.chat.completions.create(
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": question}
                 ],
-                model=self.default_model,  # Using llama3-70b-8192
-                temperature=0.3,
-                max_tokens=2000,
+                model=self.default_model,
+                temperature=0.7,      # ✅ Increased for more natural, creative responses
+                max_tokens=2500,      # ✅ Increased for comprehensive explanations
                 top_p=0.9,
                 stream=False,
             )
@@ -76,8 +98,18 @@ class AIStudyAssistant:
             }
             
         except Exception as e:
+            error_msg = str(e)
+            
+            # If model fails, try to find another one
+            if "model_not_found" in error_msg or "decommissioned" in error_msg:
+                print(f"⚠️  Model {self.default_model} failed. Finding new model...")
+                self.default_model = self._find_working_model()
+                if self.default_model:
+                    # Retry with new model
+                    return self.get_explanation(question, personality)
+            
             return {
-                "error": f"An error occurred: {str(e)}",
+                "error": f"An error occurred: {error_msg}",
                 "explanation": "I'm sorry, but I encountered an error while processing your request. Please try again later."
             }
     
@@ -90,7 +122,7 @@ class AIStudyAssistant:
                     {"role": "user", "content": question}
                 ],
                 model=self.default_model,
-                temperature=0.3,
+                temperature=0.5,      # Slightly higher for natural summaries
                 max_tokens=300,
             )
             return chat_completion.choices[0].message.content
