@@ -1,150 +1,683 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>AI Study Assistant Pro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="app-container">
-        <!-- Header -->
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <!-- =========================================
+         PAGE BACKGROUND
+    ========================================== -->
+    <div class="page-background">
+      <div class="background-grid"></div>
+
+      <div class="glow glow-one"></div>
+      <div class="glow glow-two"></div>
+
+      <!-- =====================================
+             MAIN APPLICATION
+        ====================================== -->
+      <div class="app-container">
+        <!-- =================================
+                 HEADER / NAVBAR
+            ================================== -->
         <header class="app-header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AI Study Assistant</h1>
-                        <p>Your Intelligent Learning Companion</p>
-                    </div>
-                </div>
-                <div class="header-status">
-                    <span class="status-badge">
-                        <i class="fas fa-circle"></i>
-                        Active
-                    </span>
-                </div>
+          <div class="header-content">
+            <!-- Logo -->
+            <a href="#" class="brand">
+              <div class="brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+
+              <div class="brand-text">
+                <span class="brand-name"> AI Study Assistant </span>
+
+                <span class="brand-tagline"> Intelligent Learning </span>
+              </div>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="main-nav">
+              <a href="#study"> Home </a>
+
+              <a href="#how-it-works"> How It Works </a>
+
+              <a href="#study"> Study </a>
+
+              <a href="#about"> About </a>
+            </nav>
+
+            <!-- Header Right -->
+            <div class="header-right">
+              <div class="status-badge">
+                <span class="status-dot"></span>
+
+                <span> AI Online </span>
+              </div>
+
+              <button class="header-action" onclick="focusQuestion()">
+                Start Studying
+                <i class="fas fa-arrow-right"></i>
+              </button>
             </div>
+          </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Controls Section -->
-            <section class="controls-section">
-                <div class="controls-card">
-                    <div class="personality-selector">
-                        <label for="personality">
-                            <i class="fas fa-user-graduate"></i>
-                            Teaching Style
-                        </label>
-                        <div class="select-wrapper">
-                            <select id="personality" name="personality">
-                                <option value="friendly_tutor">
-                                    <i class="fas fa-smile"></i> Friendly Tutor
-                                </option>
-                                <option value="academic_professor">
-                                    <i class="fas fa-chalkboard-teacher"></i> Academic Professor
-                                </option>
-                                <option value="elaborate_explainer">
-                                    <i class="fas fa-microscope"></i> Elaborate Explainer
-                                </option>
-                                <option value="concise_educator">
-                                    <i class="fas fa-bullseye"></i> Concise Educator
-                                </option>
-                            </select>
-                            <i class="fas fa-chevron-down select-arrow"></i>
-                        </div>
-                    </div>
-                    <div class="model-info">
-                        <i class="fas fa-robot"></i>
-                        <span>Powered by Groq AI</span>
-                    </div>
-                </div>
-            </section>
+        <!-- =================================
+                 HERO SECTION
+            ================================== -->
+        <section class="hero-section" id="about">
+          <div class="hero-content">
+            <!-- Small Badge -->
+            <div class="hero-badge">
+              <span class="badge-stars">
+                <i class="fas fa-sparkles"></i>
+              </span>
 
-            <!-- Question Section -->
-            <section class="question-section">
-                <div class="question-card">
-                    <div class="question-header">
-                        <i class="fas fa-question-circle"></i>
-                        <h2>What would you like to learn?</h2>
-                    </div>
-                    <div class="question-input-wrapper">
-                        <textarea 
-                            id="question" 
-                            placeholder="Type your question here... e.g., 'Explain quantum computing in simple terms'"
-                            rows="4"
-                        ></textarea>
-                        <button id="askButton" onclick="askQuestion()" class="ask-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Get Explanation</span>
-                        </button>
-                    </div>
-                    <div class="question-hints">
-                        <span><i class="fas fa-lightbulb"></i> Try asking about any topic</span>
-                        <span><i class="fas fa-keyboard"></i> Press Ctrl+Enter to submit</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Loading Section -->
-            <div id="loading" class="loading-section hidden">
-                <div class="loading-card">
-                    <div class="loading-spinner">
-                        <div class="spinner-ring"></div>
-                        <div class="spinner-ring"></div>
-                        <div class="spinner-ring"></div>
-                    </div>
-                    <h3>Generating Explanation</h3>
-                    <p>Our AI is analyzing your question...</p>
-                    <div class="loading-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-                </div>
+              <span> Your Intelligent Learning Companion </span>
             </div>
 
-            <!-- Response Section -->
-            <div id="responseArea" class="response-section hidden">
-                <div class="response-card">
-                    <div class="response-header">
-                        <div class="response-title">
-                            <i class="fas fa-book-open"></i>
-                            <h2>Detailed Explanation</h2>
-                        </div>
-                        <div class="response-actions">
-                            <span id="personalityDisplay" class="personality-badge">
-                                <i class="fas fa-user-tag"></i>
-                                <span>Friendly Tutor</span>
-                            </span>
-                            <button class="action-btn copy-btn" onclick="copyExplanation()" title="Copy to clipboard">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="explanation-content" id="explanation">
-                        <!-- AI response will appear here -->
-                    </div>
-                    <div class="response-footer">
-                        <div id="metadata" class="metadata">
-                            <span><i class="fas fa-microchip"></i> Model: llama-3.3-70b-versatile</span>
-                            <span><i class="fas fa-tachometer-alt"></i> Tokens: 0</span>
-                        </div>
-                        <button class="action-btn regenerate-btn" onclick="regenerateResponse()" title="Regenerate">
-                            <i class="fas fa-sync-alt"></i>
-                            Regenerate
-                        </button>
-                    </div>
-                </div>
+            <!-- Main Heading -->
+            <h1 class="hero-title">
+              Learn Smarter.
+              <br />
+
+              <span class="gradient-text"> Understand Better. </span>
+            </h1>
+
+            <!-- Description -->
+            <p class="hero-description">
+              Ask anything, choose your preferred teaching style, and let AI
+              transform complex topics into clear, understandable explanations.
+            </p>
+
+            <!-- Hero Actions -->
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="focusQuestion()">
+                <i class="fas fa-wand-magic-sparkles"></i>
+
+                Start Learning
+
+                <i class="fas fa-arrow-right"></i>
+              </button>
+
+              <button class="secondary-btn" onclick="scrollToHowItWorks()">
+                <i class="fas fa-circle-play"></i>
+
+                How It Works
+              </button>
             </div>
+
+            <!-- Trust Indicators -->
+            <div class="hero-trust">
+              <!-- <div class="avatar-group">
+
+                            <div class="avatar avatar-one">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="avatar avatar-two">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="avatar avatar-three">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="avatar avatar-four">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                        </div> -->
+
+              <div class="trust-text">
+                <strong> AI-powered learning </strong>
+
+                <span> Designed for students and lifelong learners </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================
+                     HERO VISUAL
+                ================================== -->
+          <div class="hero-visual">
+            <div class="hero-orbit orbit-one"></div>
+            <div class="hero-orbit orbit-two"></div>
+
+            <div class="floating-card floating-card-one">
+              <div class="mini-icon blue">
+                <i class="fas fa-brain"></i>
+              </div>
+
+              <div>
+                <strong> Smart Explanations </strong>
+
+                <span> AI-powered answers </span>
+              </div>
+            </div>
+
+            <div class="floating-card floating-card-two">
+              <div class="mini-icon purple">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+
+              <div>
+                <strong> Personalized </strong>
+
+                <span> Your learning style </span>
+              </div>
+            </div>
+
+            <!-- Main AI Illustration -->
+            <div class="ai-illustration">
+              <div class="illustration-glow"></div>
+
+              <div class="illustration-circle">
+                <div class="illustration-inner">
+                  <i class="fas fa-robot"></i>
+                </div>
+              </div>
+
+              <div class="orbit-icon icon-one">
+                <i class="fas fa-book"></i>
+              </div>
+
+              <div class="orbit-icon icon-two">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+
+              <div class="orbit-icon icon-three">
+                <i class="fas fa-language"></i>
+              </div>
+
+              <div class="orbit-icon icon-four">
+                <i class="fas fa-chart-line"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================
+                 STATS
+            ================================== -->
+        <section class="stats-section">
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+
+            <div>
+              <strong> AI Powered </strong>
+
+              <span> Intelligent explanations </span>
+            </div>
+          </div>
+
+          <div class="stat-divider"></div>
+
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+
+            <div>
+              <strong> 4 Teaching Styles </strong>
+
+              <span> Learn your way </span>
+            </div>
+          </div>
+
+          <div class="stat-divider"></div>
+
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+
+            <div>
+              <strong> Fast Responses </strong>
+
+              <span> Powered by Groq AI </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================
+                 STUDY ASSISTANT SECTION
+            ================================== -->
+        <main class="main-content" id="study">
+          <!-- Section Heading -->
+          <div class="section-heading">
+            <div class="section-label">
+              <!-- <span class="label-icon">
+                            <i class="fas fa-sparkles"></i>
+                        </span> -->
+
+              AI STUDY ASSISTANT
+            </div>
+
+            <h2>
+              What would you like
+              <span class="gradient-text"> to learn? </span>
+            </h2>
+
+            <p>
+              Ask any question and get a personalized explanation tailored to
+              your preferred teaching style.
+            </p>
+          </div>
+
+          <!-- =================================
+                     CONTROLS
+                ================================== -->
+          <section class="controls-section">
+            <div class="controls-card">
+              <div class="control-main">
+                <div class="control-label">
+                  <div class="control-icon">
+                    <i class="fas fa-user-graduate"></i>
+                  </div>
+
+                  <div>
+                    <span class="control-title"> Teaching Style </span>
+
+                    <span class="control-subtitle">
+                      Choose how AI explains concepts
+                    </span>
+                  </div>
+                </div>
+
+                <div class="select-wrapper">
+                  <select id="personality" name="personality">
+                    <option value="friendly_tutor">Friendly Tutor</option>
+
+                    <option value="academic_professor">
+                      Academic Professor
+                    </option>
+
+                    <option value="elaborate_explainer">
+                      Elaborate Explainer
+                    </option>
+
+                    <option value="concise_educator">Concise Educator</option>
+                  </select>
+
+                  <i class="fas fa-chevron-down select-arrow"></i>
+                </div>
+              </div>
+
+              <div class="powered-by">
+                <span class="powered-dot"></span>
+
+                <i class="fas fa-robot"></i>
+
+                Powered by
+                <strong> Groq AI </strong>
+              </div>
+            </div>
+          </section>
+
+          <!-- =================================
+                     QUESTION CARD
+                ================================== -->
+          <section class="question-section">
+            <div class="question-card">
+              <div class="question-card-top">
+                <div class="question-title">
+                  <div class="question-icon">
+                    <i class="fas fa-message"></i>
+                  </div>
+
+                  <div>
+                    <h3>Ask your question</h3>
+
+                    <p>Enter any topic you want to understand.</p>
+                  </div>
+                </div>
+
+                <div class="secure-badge">
+                  <i class="fas fa-shield-halved"></i>
+
+                  AI Assisted
+                </div>
+              </div>
+
+              <div class="question-input-wrapper">
+                <textarea
+                  id="question"
+                  placeholder="For example: Explain quantum computing in simple terms..."
+                  rows="5"
+                ></textarea>
+
+                <div class="textarea-bottom">
+                  <div class="question-hints">
+                    <span>
+                      <i class="fas fa-lightbulb"></i>
+
+                      Ask about any topic
+                    </span>
+
+                    <span>
+                      <i class="fas fa-keyboard"></i>
+
+                      Ctrl + Enter to submit
+                    </span>
+                  </div>
+
+                  <button
+                    id="askButton"
+                    onclick="askQuestion()"
+                    class="ask-btn"
+                  >
+                    <span> Get Explanation </span>
+
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =================================
+                     LOADING
+                ================================== -->
+          <div id="loading" class="loading-section hidden">
+            <div class="loading-card">
+              <div class="loading-animation">
+                <div class="loading-orb"></div>
+
+                <div class="loading-ring"></div>
+
+                <div class="loading-ring ring-two"></div>
+              </div>
+
+              <h3>Generating your explanation</h3>
+
+              <p>Our AI is analyzing your question...</p>
+
+              <div class="loading-progress">
+                <div class="progress-track">
+                  <div class="progress-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================
+                     RESPONSE
+                ================================== -->
+          <div id="responseArea" class="response-section hidden">
+            <div class="response-card">
+              <!-- Response Header -->
+              <div class="response-header">
+                <div class="response-title">
+                  <div class="response-icon">
+                    <i class="fas fa-book-open"></i>
+                  </div>
+
+                  <div>
+                    <span class="response-label"> AI RESPONSE </span>
+
+                    <h2>Detailed Explanation</h2>
+                  </div>
+                </div>
+
+                <div class="response-actions">
+                  <span id="personalityDisplay" class="personality-badge">
+                    <i class="fas fa-user-tag"></i>
+
+                    <span> Friendly Tutor </span>
+                  </span>
+
+                  <button
+                    class="action-btn copy-btn"
+                    onclick="copyExplanation()"
+                    title="Copy explanation"
+                  >
+                    <i class="fas fa-copy"></i>
+
+                    <span> Copy </span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Response Body -->
+              <div class="explanation-content" id="explanation">
+                <!-- AI response inserted here -->
+              </div>
+
+              <!-- Response Footer -->
+              <div class="response-footer">
+                <div id="metadata" class="metadata">
+                  <span>
+                    <i class="fas fa-microchip"></i>
+
+                    Model: llama-3.3-70b-versatile
+                  </span>
+
+                  <span>
+                    <i class="fas fa-tachometer-alt"></i>
+
+                    Tokens: 0
+                  </span>
+                </div>
+
+                <button class="regenerate-btn" onclick="regenerateResponse()">
+                  <i class="fas fa-rotate"></i>
+
+                  Regenerate
+                </button>
+              </div>
+            </div>
+          </div>
         </main>
+
+        <!-- =================================
+                 HOW IT WORKS
+            ================================== -->
+        <section class="how-it-works" id="how-it-works">
+          <div class="section-heading compact">
+            <div class="section-label">
+              <span class="label-icon">
+                <i class="fas fa-route"></i>
+              </span>
+
+              HOW IT WORKS
+            </div>
+
+            <h2>
+              Simple. Smart.
+              <span class="gradient-text"> Effective. </span>
+            </h2>
+
+            <p>
+              Turn your questions into meaningful learning experiences in just a
+              few steps.
+            </p>
+          </div>
+
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-number">01</div>
+
+              <div class="step-icon">
+                <i class="fas fa-pen"></i>
+              </div>
+
+              <h3>Ask a Question</h3>
+
+              <p>
+                Enter any topic, concept, or question you want to understand.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">02</div>
+
+              <div class="step-icon">
+                <i class="fas fa-sliders"></i>
+              </div>
+
+              <h3>Choose Your Style</h3>
+
+              <p>
+                Select the teaching style that matches your learning preference.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">03</div>
+
+              <div class="step-icon">
+                <i class="fas fa-wand-magic-sparkles"></i>
+              </div>
+
+              <h3>Get Your Explanation</h3>
+
+              <p>
+                Receive an AI-generated explanation tailored to your selected
+                style.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================
+                 TEACHING STYLES
+            ================================== -->
+        <section class="styles-section">
+          <div class="section-heading compact">
+            <div class="section-label">
+              <span class="label-icon">
+                <i class="fas fa-chalkboard-user"></i>
+              </span>
+
+              PERSONALIZED LEARNING
+            </div>
+
+            <h2>
+              One Assistant.
+              <span class="gradient-text"> Four Ways to Learn. </span>
+            </h2>
+          </div>
+
+          <div class="styles-grid">
+            <div class="style-card">
+              <div class="style-card-icon blue-icon">
+                <i class="fas fa-face-smile"></i>
+              </div>
+
+              <h3>Friendly Tutor</h3>
+
+              <p>Simple, approachable and conversational explanations.</p>
+            </div>
+
+            <div class="style-card">
+              <div class="style-card-icon purple-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+
+              <h3>Academic Professor</h3>
+
+              <p>
+                Structured explanations with academic depth and terminology.
+              </p>
+            </div>
+
+            <div class="style-card">
+              <div class="style-card-icon green-icon">
+                <i class="fas fa-microscope"></i>
+              </div>
+
+              <h3>Elaborate Explainer</h3>
+
+              <p>Detailed explanations with examples and deeper context.</p>
+            </div>
+
+            <div class="style-card">
+              <div class="style-card-icon orange-icon">
+                <i class="fas fa-bullseye"></i>
+              </div>
+
+              <h3>Concise Educator</h3>
+
+              <p>
+                Clear, focused and direct answers without unnecessary details.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================
+                 FOOTER
+            ================================== -->
+        <footer class="app-footer">
+          <div class="footer-content">
+            <div class="footer-brand">
+              <div class="footer-logo">
+                <div class="brand-icon small">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+
+                <strong> AI Study Assistant </strong>
+              </div>
+
+              <p>Intelligent learning, simplified.</p>
+            </div>
+
+            <div class="footer-center">
+              <span>
+                Powered by
+                <strong>Groq AI</strong>
+              </span>
+
+              <span class="footer-dot"></span>
+
+              <span> Built for smarter learning </span>
+            </div>
+
+            <div class="footer-links">
+              <a href="#about"> About </a>
+
+              <a href="#how-it-works"> How It Works </a>
+
+              <a href="#study"> Study </a>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p>© 2026 AI Study Assistant Pro. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
     </div>
 
+    <!-- JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
+  </body>
 </html>
